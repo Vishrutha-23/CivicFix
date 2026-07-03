@@ -1,6 +1,6 @@
-# 🗺️ BugMap — AI-Powered Civic Issue Reporting Platform
+# 🗺️ CivicFix — AI-Powered Civic Issue Reporting Platform
 🔗 **Live Demo:** https://bug-map-eight.vercel.app
-BugMap is a full-stack web application that empowers citizens to report civic issues like potholes, garbage overflow, broken streetlights, and water leakage. It uses AI to generate formal complaint letters addressed to the correct municipal authorities.
+CivicFix is a full-stack web application that empowers citizens to report civic issues like potholes, garbage overflow, broken streetlights, and water leakage. It uses AI to generate formal complaint letters addressed to the correct municipal authorities.
 
 ## 🚀 Live Features
 
@@ -26,7 +26,7 @@ BugMap is a full-stack web application that empowers citizens to report civic is
 | Maps | OpenStreetMap + Leaflet.js |
 | Deployement | Vercel (frontend), Render (backend) |
 ## 📁 Project Structure
-bugmap/
+Civicfix/
 
 ├── backend/
 
