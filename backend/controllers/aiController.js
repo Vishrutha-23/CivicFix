@@ -22,16 +22,14 @@ const generateComplaintLetter = async (req, res) => {
 
     const issue = result.rows[0];
 
-    const authorityMap = {
-      'Pothole': 'The Commissioner, BBMP Roads and Infrastructure Department',
-      'Garbage': 'The Commissioner, BBMP Solid Waste Management Department',
-      'Water Leakage': 'The Chief Engineer, Bangalore Water Supply and Sewerage Board (BWSSB)',
-      'Streetlight': 'The Commissioner, BBMP Electrical Department',
-      'Sewage': 'The Chief Engineer, BWSSB',
-      'Other': 'The Commissioner, BBMP'
-    };
-
-    const authority = authorityMap[issue.category] || authorityMap['Other'];
+   // Detect city from coordinates using reverse geocoding
+const geoResponse = await fetch(
+  `https://nominatim.openstreetmap.org/reverse?lat=${issue.latitude}&lon=${issue.longitude}&format=json`
+);
+const geoData = await geoResponse.json();
+const city = geoData.address?.city || geoData.address?.town || geoData.address?.state_district || 'your city';
+const state = geoData.address?.state || 'Karnataka';
+const authority = `The Commissioner, Municipal Corporation of ${city}, ${state}`;
 
     const prompt = `Write a formal complaint letter to ${authority} about the following civic issue:
 Issue Type: ${issue.category}
