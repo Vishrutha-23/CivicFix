@@ -114,6 +114,7 @@ const Home = () => {
           center={[12.9716, 77.5946]}
           zoom={12}
           style={{ flex: 1 }}
+          worldCopyJump={true}
         >
           <TileLayer
             attribution='&copy; OpenStreetMap contributors'
