@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getIssue, upvoteIssue, generateLetter } from '../api';
+import { getIssue, upvoteIssue, generateLetter, updateStatus } from '../api';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 
@@ -164,7 +164,35 @@ useEffect(() => {
               style={styles.image}
             />
           )}
-
+            {/* Status Update — only for the reporter */}
+{user && issue.user_id === user.user_id && (
+  <div style={styles.statusSection}>
+    <h4 style={styles.descLabel}>Update Status</h4>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <select
+        value={issue.status}
+        onChange={async (e) => {
+          try {
+            await updateStatus(id, e.target.value);
+            setIssue(prev => ({ ...prev, status: e.target.value }));
+            setMessage(`Status updated to "${e.target.value.replace('_', ' ')}"`);
+            setTimeout(() => setMessage(''), 3000);
+          } catch (err) {
+            setError('Failed to update status');
+          }
+        }}
+        style={styles.statusDropdown}
+      >
+        <option value="open">Open</option>
+        <option value="in_progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+      <span style={{ fontSize: '13px', color: '#666' }}>
+        Only you (the reporter) can update this
+      </span>
+    </div>
+  </div>
+)}
           {/* Upvote Section */}
           <div style={styles.upvoteSection}>
             <button
@@ -309,7 +337,21 @@ const styles = {
     fontFamily: 'Georgia, serif', fontSize: '14px',
     lineHeight: '1.7', color: '#333', margin: 0,
     backgroundColor: 'white'
-  }
+  },
+  statusSection: {
+  paddingBottom: '16px',
+  marginBottom: '16px',
+  borderBottom: '1px solid #eee'
+},
+statusDropdown: {
+  padding: '8px 12px',
+  borderRadius: '8px',
+  border: '1px solid #ddd',
+  fontSize: '14px',
+  cursor: 'pointer',
+  backgroundColor: 'white',
+  color: '#333'
+}
 };
 
 export default IssueDetail;
